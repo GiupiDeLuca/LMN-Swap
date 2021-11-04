@@ -1,7 +1,7 @@
 import { get } from "lodash";
 import { createSelector } from "reselect";
 import moment from "moment";
-import { ETHER_ADDRESS, tokens, ether } from "../helpers";
+import { ETHER_ADDRESS, tokens, ether, GREEN, RED } from "../helpers";
 
 const account = (state) => get(state, "web3.account");
 export const accountSelector = createSelector(account, (a) => a);
@@ -33,19 +33,24 @@ export const filledOrdersLoadedSelector = createSelector(
 
 const filledOrders = (state) => get(state, "exchange.filledOrders.data", []);
 export const filledOrdersSelector = createSelector(filledOrders, (orders) => {
+  // sort orders by date ascending for price comparison
+  orders = orders.sort((a, b) => a.timestamp - b.timestamp);
   // decorate the orders
   orders = decorateFilledOrders(orders);
   // sort orders by date descending
   orders = orders.sort((a, b) => b.timestamp - a.timestamp);
-
-  console.log(orders);
+  
+  return orders;
 });
 
 const decorateFilledOrders = (orders) => {
+  // track previous order to compare history
+  let previousOrder = orders[0];
   return orders.map((order) => {
-      order = decorateOrder(order)
-      order = decorateFilledOrder(order)
-    return order
+    order = decorateOrder(order);
+    order = decorateFilledOrder(order, previousOrder);
+    previousOrder = order;
+    return order;
   });
 };
 
@@ -70,10 +75,26 @@ const decorateOrder = (order) => {
     etherAmount: ether(etherAmount),
     tokenAmount: tokens(tokenAmount),
     tokenPrice,
-    fomrattedTimeStamp: moment.unix(order.timestamp).format("h:mm:ss a M/D" )
+    formattedTimestamp: moment.unix(order.timestamp).format("h:mm:ss a M/D"),
   };
 };
 
-const decorateFilledOrder = (order) => {
-    
-}
+const decorateFilledOrder = (order, previousOrder) => {
+  return {
+    ...order,
+    tokenPriceClass: tokenPriceClass(order.tokenPrice, order.id, previousOrder),
+  };
+};
+
+const tokenPriceClass = (tokenPrice, orderId, previousOrder) => {
+  // show green is only one order exists
+  if (previousOrder.id === orderId) {
+    return GREEN;
+  }
+
+  if (previousOrder.tokenPrice <= tokenPrice) {
+    return GREEN;
+  } else {
+    return RED;
+  }
+};
