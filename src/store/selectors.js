@@ -77,7 +77,7 @@ const decorateFilledOrders = (orders) => {
 const decorateOrder = (order) => {
   let etherAmount;
   let tokenAmount;
-  if (order.tokenGive == ETHER_ADDRESS) {
+  if (order.tokenGive === ETHER_ADDRESS) {
     etherAmount = order.amountGive;
     tokenAmount = order.amountGet;
   } else {
@@ -170,13 +170,11 @@ export const orderBookSelector = createSelector(openOrders, (orders) => {
 });
 
 const decorateOrderBookOrders = (orders) => {
-  return (
-    orders.map((order) => {
+  return orders.map((order) => {
     order = decorateOrder(order);
     order = decorateOrderBookOrder(order);
     return order;
-    })
-  )
+  });
 };
 
 const decorateOrderBookOrder = (order) => {
@@ -186,5 +184,91 @@ const decorateOrderBookOrder = (order) => {
     orderType,
     orderTypeClass: orderType === "buy" ? GREEN : RED,
     orderFillClass: orderType === "buy" ? "buy" : "sell",
+  };
+};
+
+export const myFilledOrdersLoadedSelector = createSelector(
+  filledOrdersLoaded,
+  (loaded) => loaded
+);
+
+export const myFilledOrdersSelector = createSelector(
+  account,
+  filledOrders,
+  (account, orders) => {
+    // find our orders
+    orders = orders.filter((o) => o.user === account || o.userFill === account);
+
+    // sort by date ascending
+    orders = orders.sort((a, b) => a.timeStamp - b.timeStamp);
+
+    // decorate orders - add display attributes
+    orders = decorateMyFilledOrders(orders, account);
+    return orders;
+  }
+);
+
+const decorateMyFilledOrders = (orders, account) => {
+  return orders.map((order) => {
+    order = decorateOrder(order);
+    order = decorateMyFilledOrder(order, account);
+    return order;
+  });
+};
+
+const decorateMyFilledOrder = (order, account) => {
+  const myOrder = order.user === account;
+
+  let orderType;
+  if (myOrder) {
+    orderType = order.tokenGive === ETHER_ADDRESS ? "buy" : "sell";
+  } else {
+    orderType = order.tokenGive === ETHER_ADDRESS ? "sell" : "buy";
+  }
+
+  return {
+    ...order,
+    orderType,
+    orderTypeClass: orderType === "buy" ? GREEN : RED,
+    orderSign: orderType === "buy" ? "+" : "-",
+  };
+};
+
+export const myOpenOrdersLoadedSelector = createSelector(
+  orderBookLoaded,
+  (loaded) => loaded
+);
+
+export const myOpenOrdersSelector = createSelector(
+  account,
+  openOrders,
+  (account, orders) => {
+    // find orders created by current account
+    orders = orders.filter((o) => o.user === account);
+
+    // decorate orders - add display attributes
+    orders = decorateMyOpenOrders(orders);
+
+    // sort by date descending
+    orders = orders.sort((a, b) => b.timeStamp - a.timeStamp);
+    return orders;
+  }
+);
+
+const decorateMyOpenOrders = (orders, account) => {
+  return orders.map((order) => {
+    order = decorateOrder(order);
+    order = decorateMyOpenOrder(order, account);
+    return order;
+  });
+};
+
+const decorateMyOpenOrder = (order, account) => {
+  let orderType = order.tokenGive === ETHER_ADDRESS ? "buy" : "sell";
+
+  return {
+    ...order,
+    orderType,
+    orderTypeClass: orderType === "buy" ? GREEN : RED,
   };
 };
