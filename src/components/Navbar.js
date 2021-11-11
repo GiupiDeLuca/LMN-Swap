@@ -5,9 +5,9 @@ import { accountSelector } from "../store/selectors";
 class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-warning">
-        <a className="navbar-brand" href="/#" style={{ color: "black" }}>
-          Lemon Swap
+      <nav className="navbar navbar-expand-lg navbar-dark bg-warning" style={{padding: "0.3rem 0.8rem"}}>
+        <a className="navbar-brand" href="/#" style={{ color: "black", marginLeft: "10px" }}>
+          LEMON SWAP
         </a>
         <button
           className="navbar-toggler"

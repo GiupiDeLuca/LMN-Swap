@@ -10,12 +10,13 @@ import {
 import Spinner from "./Spinner";
 
 const showMyFilledOrders = (myFilledOrders) => {
+    // console.log(myFilledOrders)
   return (
     <tbody>
       {myFilledOrders.map((order) => {
         return (
           <tr key={order.id}>
-            <td className="text-muted">{order.formattedTimeStamp}</td>
+            <td className="text-muted">{order.formattedTimestamp}</td>
             <td className={`text-${order.orderTypeClass}`}>
               {order.orderSign}
               {order.tokenAmount}
