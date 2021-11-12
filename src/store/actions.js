@@ -50,6 +50,21 @@ function allOrdersLoaded(allOrders) {
   };
 }
 
+// CANCEL ORDER IN PROGRESS
+function orderCancelling() {
+  return {
+    type: "ORDER_CANCELLING",
+  };
+}
+
+// CANCEL ORDER
+function orderCancelled(order) {
+  return {
+    type: "ORDER_CANCELLED",
+    order,
+  };
+}
+
 module.exports = {
   web3Loaded,
   web3AccountLoaded,
@@ -58,4 +73,6 @@ module.exports = {
   cancelledOrdersLoaded,
   filledOrdersLoaded,
   allOrdersLoaded,
+  orderCancelling,
+  orderCancelled,
 };

@@ -287,15 +287,15 @@ export const priceChartSelector = createSelector(filledOrders, (orders) => {
 
   // get last two orders for final price and price change
   let secondLastOrder, lastOrder;
-  [secondLastOrder, lastOrder] = orders.slice(orders.length - 2, orders.length )
+  [secondLastOrder, lastOrder] = orders.slice(orders.length - 2, orders.length);
   // get last order price
-  const lastPrice = get(lastOrder, "tokenPrice", 0)
+  const lastPrice = get(lastOrder, "tokenPrice", 0);
   // get second last order price
-  const secondLastPrice = get(secondLastOrder, "tokenPrice", 0)
+  const secondLastPrice = get(secondLastOrder, "tokenPrice", 0);
 
   return {
     lastPrice,
-    priceChange: (lastPrice >= secondLastPrice ? "+" : "-"),
+    priceChange: lastPrice >= secondLastPrice ? "+" : "-",
     series: [
       {
         data: buildGraphData(orders),
@@ -329,3 +329,10 @@ const buildGraphData = (orders) => {
 
   return graphData;
 };
+
+const orderCancelling = (state) =>
+  get(state, "exchange.orderCancelling", false);
+export const orderCancellingSelector = createSelector(
+  orderCancelling,
+  (status) => status
+);
