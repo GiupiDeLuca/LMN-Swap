@@ -65,6 +65,21 @@ function orderCancelled(order) {
   };
 }
 
+// FILLING ORDER IN PROGRESS
+function orderFilling() {
+  return {
+    type: "ORDER_FILLING",
+  };
+}
+
+// FILL ORDER
+function orderFilled(order) {
+  return {
+    type: "ORDER_FILLED",
+    order,
+  };
+}
+
 module.exports = {
   web3Loaded,
   web3AccountLoaded,
@@ -75,4 +90,6 @@ module.exports = {
   allOrdersLoaded,
   orderCancelling,
   orderCancelled,
+  orderFilling,
+  orderFilled,
 };
