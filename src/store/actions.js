@@ -80,6 +80,75 @@ function orderFilled(order) {
   };
 }
 
+// BALANCES
+function etherBalanceLoaded(balance) {
+  return {
+    type: "ETHER_BALANCE_LOADED",
+    balance,
+  };
+}
+
+function tokenBalanceLoaded(balance) {
+  return {
+    type: "TOKEN_BALANCE_LOADED",
+    balance,
+  };
+}
+
+function exchangeEtherBalanceLoaded(balance) {
+  return {
+    type: "EXCHANGE_ETHER_BALANCE_LOADED",
+    balance,
+  };
+}
+
+function exchangeTokenBalanceLoaded(balance) {
+  return {
+    type: "EXCHANGE_TOKEN_BALANCE_LOADED",
+    balance,
+  };
+}
+
+function balancesLoading() {
+  return {
+    type: "BALANCES_LOADING",
+  };
+}
+
+function balancesLoaded() {
+  return {
+    type: "BALANCES_LOADED",
+  };
+}
+
+function etherDepositAmountChanged(amount) {
+  return {
+    type: "ETHER_DEPOSIT_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
+function etherWithDrawAmountChanged(amount) {
+  return {
+    type: "ETHER_WITHDRAW_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
+function tokenDepositAmountChanged(amount) {
+  return {
+    type: "TOKEN_DEPOSIT_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
+function tokenWithDrawAmountChanged(amount) {
+  return {
+    type: "TOKEN_WITHDRAW_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
 module.exports = {
   web3Loaded,
   web3AccountLoaded,
@@ -92,4 +161,14 @@ module.exports = {
   orderCancelled,
   orderFilling,
   orderFilled,
+  etherBalanceLoaded,
+  tokenBalanceLoaded,
+  exchangeEtherBalanceLoaded,
+  exchangeTokenBalanceLoaded,
+  balancesLoading,
+  balancesLoaded,
+  etherDepositAmountChanged,
+  etherWithDrawAmountChanged,
+  tokenDepositAmountChanged,
+  tokenWithDrawAmountChanged,
 };
