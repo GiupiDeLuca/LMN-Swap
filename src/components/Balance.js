@@ -69,7 +69,7 @@ const showForm = (props) => {
         </table>
         <form
           className="row"
-          style={{marginBottom: "20px"}}
+          style={{marginBottom: "10px"}}
           onSubmit={(event) => {
             event.preventDefault();
             depositEther(dispatch, exchange, web3, etherDepositAmount, account);
@@ -154,7 +154,7 @@ const showForm = (props) => {
         </table>
         <form
           className="row"
-          style={{marginBottom: "20px"}}
+          style={{marginBottom: "10px"}}
           onSubmit={(event) => {
             event.preventDefault();
             withdrawEther(

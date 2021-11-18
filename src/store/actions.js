@@ -149,6 +149,56 @@ function tokenWithDrawAmountChanged(amount) {
   };
 }
 
+// Buy Order
+function buyOrderAmountChanged(amount) {
+  return {
+    type: "BUY_ORDER_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
+function buyOrderPriceChanged(price) {
+  return {
+    type: "BUY_ORDER_PRICE_CHANGED",
+    price,
+  };
+}
+
+function buyOrderMaking(price) {
+  return {
+    type: "BUY_ORDER_MAKING",
+  };
+}
+
+// Generic Order
+function orderMade(order) {
+  return {
+    type: "ORDER_MADE",
+    order,
+  };
+}
+
+// Sell Order
+function sellOrderAmountChanged(amount) {
+  return {
+    type: "SELL_ORDER_AMOUNT_CHANGED",
+    amount,
+  };
+}
+
+function sellOrderPriceChanged(price) {
+  return {
+    type: "SELL_ORDER_PRICE_CHANGED",
+    price,
+  };
+}
+
+function sellOrderMaking(price) {
+  return {
+    type: "SELL_ORDER_MAKING",
+  };
+}
+
 module.exports = {
   web3Loaded,
   web3AccountLoaded,
@@ -171,4 +221,11 @@ module.exports = {
   etherWithDrawAmountChanged,
   tokenDepositAmountChanged,
   tokenWithDrawAmountChanged,
+  buyOrderAmountChanged,
+  buyOrderPriceChanged,
+  buyOrderMaking,
+  orderMade,
+  sellOrderAmountChanged,
+  sellOrderPriceChanged,
+  sellOrderMaking,
 };
